@@ -1,20 +1,16 @@
-name: Jekyll site CI
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "mai" ]
-  pull_request:
-    branches: [ "mai" ]
+    branches:
+      - mai
 
 jobs:
-  build:
-
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the site in the jekyll/builder container
-      run: |
-        docker run \
-        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+      - uses: actions/checkout@v2
+      - name: Build and Deploy
+        uses: actions/configure-pages@v4
+        with:
+          enablement: true # Automatically enable GitHub Pages if not enabled
